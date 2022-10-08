@@ -1,21 +1,20 @@
-package com.rico.api.controller;
+package com.rico.sys.controller;
 
-import com.rico.api.feign.EchoServerClient;
-import com.rico.api.feign.EchoServerClient2;
+import com.rico.sys.feign.EchoServerClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class EchoController {
+public class EchosController {
 
-   @Autowired
+   @Autowired(required = true)
     private  EchoServerClient client;
 
-    @Autowired
-    private EchoServerClient2 client2;
+/*    @Autowired
+    private EchoServerClient2 client2;*/
 
-    @GetMapping(value = "/echo")
+    @GetMapping(value = "/echos")
     public String echo() {
       String ss=  client.echo();
         return client.echo();
@@ -28,6 +27,6 @@ public class EchoController {
 
     @GetMapping("/index/test/test")
     Object test(){
-        return client2.test();
+        return client.test();
     }
 }

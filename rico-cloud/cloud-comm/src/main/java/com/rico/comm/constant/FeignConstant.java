@@ -29,4 +29,6 @@ public class FeignConstant {
      * 消息生产者
      */
     public final String MATE_CLOUD_LOG_PRODUCER = "mate-log-producer";
+
+    public final String DISCOVER_ECHO_SERVER = "DiscoverEchoServer2";
 }
