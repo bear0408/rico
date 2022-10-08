@@ -1,0 +1,90 @@
+server:
+  port: 28882
+spring:
+  application:
+    name: CloudUaaServer
+
+---
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  main:
+    allow-circular-references: true
+
+  cloud:
+    polaris:
+      address: grpc://192.168.233.130:8091
+      discovery:
+        enabled: true
+      stat:
+        enabled: true
+        port: 28083
+
+
+  redis:
+    database: 5
+    host:  # 127.0.0.1
+    port: 6379
+    password: caicaimima
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 150
+        max-wait: -1
+        max-idle: 500
+        min-idle: 10
+    lettuce:
+      shutdown-timeout: 0
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3308/twelvet?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver # com.mysql.jdbc.Driver # 数据库驱动类
+
+---
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+    justauth:
+      enabled: true
+      type:
+        github:
+          client-id: 75a51afd3b0a2fc32952
+          client-secret: dcf425ac89******************736d2317b
+          redirect-uri: http://localhost:10001/mate-uaa/auth/callback/github
+        wechat_open:
+          client-id: wxdcb******4ff4
+          client-secret: b4e9dc************************a08ed6d
+          redirect-uri: http://oauth.xkcoding.com/demo/oauth/wechat/callback
+        QQ:
+          client-id: 10**********6
+          client-secret: 1f7d08**********5b7**********29e
+          redirect-uri: http://oauth.xkcoding.com/demo/oauth/qq/callback
+          union-id: false
+      cache:
+        type: redis
+        prefix: 'SOCIAL::STATE::'
+        timeout: 1h
+    social:
+      vue:
+        url: http://localhost:9528/#/socialcallback
+
+
+mate:
+  preview:
+    enable: false
+  # 租户开关
+  tenant:
+    enable: false
+  # 网关认证开关
+  uaa:
+    enable: false
+    # 开关：同应用账号互踢
+    isSingleLogin: false
+    ignore-url:
+      - /auth/login/**
+      - /auth/callback/**
+      - /auth/sms-code

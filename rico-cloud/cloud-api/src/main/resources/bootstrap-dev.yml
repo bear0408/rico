@@ -1,0 +1,44 @@
+server:
+  port: 28889
+spring:
+  application:
+    name: CloudApiServer
+
+  cloud:
+    polaris:
+      address: grpc://192.168.233.130:8091
+      discovery:
+        enabled: true
+      stat:
+        enabled: true
+        port: 28083
+
+
+
+#server:
+#  port: 7706
+#spring:
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
+#  main:
+#    allow-circular-references: true
+#
+#
+#---
+#spring:
+#  application:
+#    name: CloudSys
+#
+#  cloud:
+#    polaris:
+#      address: grpc://192.168.233.130:8091
+#      discovery:
+#        enabled: true
+#      stat:
+#        enabled: true
+#        port: 28082
+#
+#
+#
+#

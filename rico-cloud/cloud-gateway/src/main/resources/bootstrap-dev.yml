@@ -1,0 +1,74 @@
+server:
+  port: 28885
+spring:
+  application:
+    name: CloudGateWayServer
+
+---
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  main:
+    allow-circular-references: true
+
+  cloud:
+    polaris:
+      address: grpc://192.168.233.130:8091
+      discovery:
+        enabled: true
+      stat:
+        enabled: true
+        port: 28085
+
+
+  redis:
+    database: 5
+    host: # 127.0.0.1
+    port: 6379
+    password:
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 150
+        max-wait: -1
+        max-idle: 500
+        min-idle: 10
+    lettuce:
+      shutdown-timeout: 0
+
+#  datasource:
+#    url: jdbc:mysql://10.20.70.213:3308/twelvet?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+#    username: root
+#    password: MKL@developer123#!
+#    driver-class-name: com.mysql.cj.jdbc.Driver # com.mysql.jdbc.Driver # 数据库驱动类
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+---
+spring:
+  cloud:
+    gateway:
+      discovery:      #是否与服务发现组件进行结合，通过 serviceId(必须设置成大写) 转发到具体的服务实例。默认为false，设为true便开启通过服务中心的自动根据 serviceId 创建路由的功能。
+        locator:      #路由访问方式：http://Gateway_HOST:Gateway_PORT/大写的serviceId/**，其中微服务应用名默认大写访问。
+          enabled: true
+      routes:
+        - id: CloudUaaServer
+          uri: lb://CloudUaaServer
+          predicates:
+            - Path=/cloud-uaa/**
+          filters:
+            - StripPrefix=1
+
+        - id: CloudSysServer
+          uri: lb://CloudSysServer
+          predicates:
+            - Path=/cloud-sys/**
+          filters:
+            - StripPrefix=1

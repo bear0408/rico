@@ -1,0 +1,22 @@
+#server:
+#  port: 28888
+#spring:
+#  application:
+#    name: CloudSysServer
+#
+#  cloud:
+#    polaris:
+#      address: grpc://192.168.233.130:8091
+#      discovery:
+#        enabled: true
+#      stat:
+#        enabled: true
+#        port: 28082
+
+
+
+
+spring:
+  profiles:
+    # dev 默认为开发环境 , prod 线上环境
+    active: dev
